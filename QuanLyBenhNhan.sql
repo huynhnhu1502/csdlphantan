@@ -3,25 +3,25 @@ Use QuanLyBenhNhan
 
 Create Table BENHNHAN(
 		MaBN varchar(20) primary key not null,
-		TenBN nvarchar(50),
+		TenBN nvarchar(50) not null,
 		NgSinh datetime,
 		GioiTinh int,
 		DiaChi nvarchar(max),
 		SoDT varchar(30));
 
-alter table BENHNHAN alter column MaBN varchar(20) not null;
-alter table BENHNHAN alter column TenBN nvarchar(50) not null;
+/*alter table BENHNHAN alter column MaBN varchar(20) not null;
+alter table BENHNHAN alter column TenBN nvarchar(50) not null;*/
 ----------
 
 Create table BHYT(
-		SoThe varchar(20) primary key,
-		MaBN varchar(20),
+		SoThe varchar(20) primary key not null,
+		MaBN varchar(20) not null,
 		NgayCap datetime,
 		NgayHHan datetime,
 		Foreign key (MaBN) References BENHNHAN(MaBN));
 
-alter table BHYT alter column SoThe varchar(20) not null;
-alter table BHYT alter column MaBN varchar(20) not null;
+/*alter table BHYT alter column SoThe varchar(20) not null;
+alter table BHYT alter column MaBN varchar(20) not null;*/
 -------------
 
 Create table BACSI(
@@ -68,27 +68,42 @@ Create table LOAIXETNGHIEM(
 
 Create table PHIEUXETNGHIEM(
 		MaPhieuXN varchar(20) primary key not null,
-		MaLoaiXN varchar(20) not null,
 		MaBN varchar(20),
 		NgayXN datetime,
-		KetQuaXN nvarchar(max),
 		LyDoXN nvarchar(max),
-		Foreign key (MaLoaiXN) References LOAIXETNGHIEM(MaLoaiXN),
 		Foreign key (MaBN) References BENHNHAN(MaBN))
+-----------------
+
+Create table CHITIETXETNGHIEM(
+		MaPhieuXN varchar(20) not null,
+		MaLoaiXN varchar(20) not null,
+		KetQuaXN nvarchar(max),
+		Foreign key (MaPhieuXN) References PHIEUXETNGHIEM(MaPhieuXN),
+		Foreign key (MaLoaiXN) References LOAIXETNGHIEM(MaLoaiXN))
+
+alter table CHITIETXETNGHIEM add primary key(MaPhieuXN, MaLoaiXN);
 -----------------
 
 Create table SUDUNGDICHVU(
 		MaSD varchar(20) primary key not null,
 		NgaySD datetime,
-		SoLuongDV int,
-		MaBN varchar(20),
-		MaDV varchar(20),
-		Foreign key (MaBN) References BENHNHAN(MaBN),
-		Foreign key (MaDV) References DICHVU(MaDV))
+		MaBN varchar(20) not null,
+		TongTien decimal,
+		Foreign key (MaBN) References BENHNHAN(MaBN))
 
-alter table SUDUNGDICHVU alter column MaBN varchar(20) not null
-alter table SUDUNGDICHVU alter column MaDV varchar(20) not null
+/*alter table SUDUNGDICHVU alter column MaBN varchar(20) not null
+alter table SUDUNGDICHVU alter column MaDV varchar(20) not null*/
 -------------
+
+Create table CHITIETSDDICHVU(
+		MaSD varchar(20) not null,
+		MaDV varchar(20) not null,
+		SoLuongDV int,
+		ThanhTien decimal,
+		Foreign key (MaSD) References SUDUNGDICHVU(MaSD),
+		Foreign key (MaDV) References DICHVU(MaDV),
+		Primary key (MaSD, MaDV));
+--------------
 
 Create table DONTHUOC(
 		MaDon varchar(20) primary key not null,
