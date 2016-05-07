@@ -7,6 +7,10 @@
 		<Model Expanded="Yes" ID="{7223DADC-F633-4E42-BAEA-127936BC4B40}" Loaded="No" Name="ERD_QLBenhNhan" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="ERD_QLBenhNhan.cdm"/>
 		<Model Expanded="Yes" ID="{7223DADC-F633-4E42-BAEA-127936BC4B40}" Loaded="No" Name="ERD_QLBenhNhan" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="ERD_QLBenhNhan.cdm"/>
 		<Model Expanded="Yes" ID="{7223DADC-F633-4E42-BAEA-127936BC4B40}" Loaded="No" Name="ERD_QLBenhNhan" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="ERD_QLBenhNhan.cdm"/>
+		<Model Expanded="Yes" ID="{7223DADC-F633-4E42-BAEA-127936BC4B40}" Loaded="No" Name="ERD_QLBenhNhan" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="ERD_QLBenhNhan.cdm"/>
+		<Model Expanded="Yes" ID="{7223DADC-F633-4E42-BAEA-127936BC4B40}" Loaded="No" Name="ERD_QLBenhNhan" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="ERD_QLBenhNhan.cdm"/>
+		<Model Expanded="Yes" ID="{7223DADC-F633-4E42-BAEA-127936BC4B40}" Loaded="No" Name="ERD_QLBenhNhan" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="ERD_QLBenhNhan.cdm"/>
+		<Model Expanded="Yes" ID="{7223DADC-F633-4E42-BAEA-127936BC4B40}" Loaded="No" Name="ERD_QLBenhNhan" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="ERD_QLBenhNhan.cdm"/>
 		<Model Expanded="Yes" ID="{7223DADC-F633-4E42-BAEA-127936BC4B40}" Name="ERD_QLBenhNhan" Selected="Yes" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="ERD_QLBenhNhan.cdm"/>
 	</Local>
 	<BrowserModule Name="Repository"/>

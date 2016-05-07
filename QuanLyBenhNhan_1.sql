@@ -24,11 +24,6 @@ Create table BHYT(
 alter table BHYT alter column MaBN varchar(20) not null;*/
 -------------
 
-Create table KHOA(
-		MaKhoa varchar(20) primary key not null,
-		TenKhoa nvarchar(50) not null)
-----------------
-
 Create table BACSI(
 		MaBS varchar(20) primary key not null,
 		TenBS nvarchar(50) not null,
@@ -38,6 +33,11 @@ Create table BACSI(
 		SoDT varchar(30),
 		MaKhoa varchar(20) not null,
 		Foreign key (MaKhoa) References KHOA(MaKhoa));
+----------------
+
+Create table KHOA(
+		MaKhoa varchar(20) primary key not null,
+		TenKhoa nvarchar(50) not null)
 ----------------
 
 Create table HOSOBENHAN(
@@ -115,8 +115,6 @@ Create table DONTHUOC(
 Create table THUOC(
 		MaThuoc varchar(20) primary key not null,
 		TenThuoc nvarchar(50) not null)
-
-alter table THUOC alter column TenThuoc nvarchar(max) not null
 ---------------
 
 Create table CHITIETDONTHUOC(
@@ -155,7 +153,6 @@ values('SV0001BH', 'BN000001', '1/1/2016', '1/1/2017'),
 ('SV0009BH', 'BN000009', '9/1/2016', '9/1/2017'),
 ('SV0010BH', 'BN000010', '10/1/2016', '10/1/2017')
 
-
 insert into KHOA(MaKhoa, TenKhoa)
 values('K001', N'Chấn thương & Chỉnh hình'),
 ('K002', N'Da liễu & Hoa liễu'),
@@ -174,7 +171,6 @@ values('K001', N'Chấn thương & Chỉnh hình'),
 ('K015', N'Tiêu hóa'),
 ('K016', N'Tim mạch'),
 ('K017', N'Tư vấn tâm lý & Tâm thần')
-
 
 insert into BACSI(MaBS, TenBS, NgSinh, GioiTinh, DiaChi, SoDT, MaKhoa)
 values('BS001', N'Vũ Duy Đông', '3/1/1982', 1, N'78/23/3 đường Cống Lở, Phường 15, Quận Tân Bình, TP Hồ Chí Minh', '01228867678', 'K002'),
@@ -235,7 +231,6 @@ values('PXH0000001', 'BN000001', '1/4/2016', N'kiểm tra hàm lượng đườn
 ('PXH0000009', 'BN000009', '3/23/2016', N'xét nghiệm kháng thể viêm gan B'),
 ('PXH0000010', 'BN000010', '3/19/2016', N'xét nghiệm lượng hồng cầu trong máu')
 
-
 insert into CHITIETXETNGHIEM(MaPhieuXN, MaLoaiXN, KetQuaXN)
 values('PXH0000001', 'LXH0001', N'bình thường'),
 ('PXH0000002', 'LXH0002', N'nhiễm giun'),
@@ -250,7 +245,6 @@ values('PXH0000001', 'LXH0001', N'bình thường'),
 ('PXH0000010', 'LXH0004', N'bình thường'),
 ('PXH0000010', 'LXH0001', N'bình thường')
 
-
 insert into SUDUNGDICHVU(MaSD, NgaySD, MaBN, TongTien)
 values('SDDV0001', '1/4/2016', 'BN000001', 874000),
 ('SDDV0002', '2/4/2016', 'BN000002', 1587000),
@@ -262,7 +256,6 @@ values('SDDV0001', '1/4/2016', 'BN000001', 874000),
 ('SDDV0008', '8/4/2016', 'BN000008', 874000),
 ('SDDV0009', '9/4/2016', 'BN000009', 1587000),
 ('SDDV0010', '10/4/2016', 'BN000010', 3266000)
-
 
 insert into CHITIETSDDICHVU(MaSD, MaDV, SoLuongDV, ThanhTien)
 values('SDDV0001', 'DV001', 1, 874000),
@@ -276,7 +269,6 @@ values('SDDV0001', 'DV001', 1, 874000),
 ('SDDV0009', 'DV002', 1, 1587000),
 ('SDDV0010', 'DV003', 1, 3266000)
 
-
 insert into DONTHUOC(MaDon, NgayKham, MaHS)
 values('DON000001', '2016-03-12', 'HS0000001'),
 ('DON000002', '2016-02-10', 'HS0000002'),
@@ -288,7 +280,6 @@ values('DON000001', '2016-03-12', 'HS0000001'),
 ('DON000008', '2016-03-19', 'HS0000008'),
 ('DON000009', '2016-03-20', 'HS0000009'),
 ('DON000010', '2016-03-21', 'HS0000010')
-
 
 insert into THUOC(MaThuoc, TenThuoc)
 values('T0000001', 'EMTRIVA ORAL CAPSULE'),
@@ -302,16 +293,18 @@ values('T0000001', 'EMTRIVA ORAL CAPSULE'),
 ('T0000009', 'SUSTIVA ORAL CAPSULE 200 MG '),
 ('T0000010', 'VIDEX 2 GRAM PEDIATRIC'),
 ('T0000011', 'VIRACEPT ORAL TABLET 250 MG'),
-('T0000012', 'CEFTRIAXONE INJECTION RECON SOLN 100 $0-7.40 (Tier 2) GRAM'),
-('T0000013', 'ERYTHROCIN INTRAVENOUS RECON SOLN $0-7.40 (Tier 2) 500 MG'),
-('T0000014', 'ALINIA ORAL SUSPENSION FOR $0-7.40 (Tier 2) MO; QLL (180 per 3 days) RECONSTITUTION'),
+('T0000012', 'CEFTRIAXONE INJECTION RECON SOLN 100 $0-7.40 (Tier 2)
+GRAM'),
+('T0000013', 'ERYTHROCIN INTRAVENOUS RECON SOLN $0-7.40 (Tier 2)
+500 MG'),
+('T0000014', 'ALINIA ORAL SUSPENSION FOR $0-7.40 (Tier 2) MO; QLL (180 per 3 days)
+RECONSTITUTION'),
 ('T0000015', 'AZACTAM IN DEXTROSE (ISO-OSM)'),
 ('T0000016', 'CAPASTAT'),
 ('T0000017', 'DAPSONE'),
 ('T0000018', 'NEBUPENT'),
 ('T0000019', 'PENTAM'),
 ('T0000020', 'PRIMAQUINE')
-
 
 insert into CHITIETDONTHUOC(MaDon, MaThuoc, SoLuong, CachDung)
 values('DON000001', 'T0000001', 90, N'Ngày 3 lần'),
