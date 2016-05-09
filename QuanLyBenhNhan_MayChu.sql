@@ -228,6 +228,8 @@ Exec ThemBenhNhan 'BN000008', N'Chung Yến Loan', '1/1/1993', 0, N'28/22A đư�
 Exec ThemBenhNhan 'BN000009', N'Trương Thị Mỹ Ngọc', '6/1/1991', 0, N'83/27/4 Phạm Văn Bạch, Phường 15, Quận Tân Bình, TP Hồ Chí Minh', '01212882279'
 Exec ThemBenhNhan 'BN000010', N'Phan Thị Hồng Phúc', '3/1/1994', 0, N'141 Nguyễn Đức Cảnh, Khu phố Mỹ Phúc, Phường Tân Phong, Quận 7, TP Hồ Chí Minh', '01213141655'
 Exec ThemBenhNhan 'BN000011', N'Trần Minh Thái', '3/1/1956', 1, N'141 Phạm Thế Hiển, Phường 9, Quận 8, TP Hồ Chí Minh', '01213141234'
+
+--Kiem tra cac truong hop
 Exec ThemBenhNhan 'BN000011', N'Đỗ Mỹ Hằng', '9/1/1992', 0, N'111/1211 Lê Đức Thọ, Phường 12, Quận Gò Vấp, TP Hồ Chí Minh', '01212452011'
 Exec ThemBenhNhan 'BN0000012', N'', '6/23/1972', 0, N'52 Nguyễn Trãi, Phường Bến Thành, Quận 1, TP Hồ Chí Minh', '01212134184'
 Exec ThemBenhNhan 'BN0000013', N'Nguyễn Trương Tiến', '3/23/1988', 2, N'16 Phạm Văn Bạch, Phường 15, Quận Tân Bình, TP Hồ Chí Minh', '01212100184'
@@ -322,7 +324,7 @@ Exec ThemBHYT '', 'BN000010', '10/1/2016', '10/1/2017'
 Exec ThemBHYT 'SV0009BH', 'BN000010', '9/1/2016', '9/1/2017'
 Exec ThemBHYT 'SV0011BH', 'BN000020', '9/1/2016', '9/1/2017'
 
--- Tạo khung nhìn (trong suốt) cho bảng BENHNHAN
+-- Tạo khung nhìn (trong suốt) cho bảng BHYT
 Create view View_BHYT as
 select * from BHYT 
 union
@@ -365,6 +367,14 @@ Begin
 		print N'Tên khoa không được rỗng'
 		return
 	End
+
+	--kiem tra  MaKhoa co ton tai ko
+	if not exists (select * from KHOA where MaKhoa=@MaKhoa)
+	and not exists (select * from SQL_Home.QuanLyBenhNhan.dbo.KHOA where MaKhoa=@MaKhoa)
+	Begin
+		print N'Khoa không tồn tại'
+		return
+	End 
 	
 	--kiem tra MaKhoa ko duoc trung
 	if exists (Select * from KHOA where TenKhoa=@TenKhoa) or exists ( select * from SQL_Home.QuanLyBenhNhan.dbo.KHOA where TenKhoa=@TenKhoa)
@@ -407,3 +417,102 @@ Exec ThemKHOA 'K006', N'Nha'
 Exec ThemKHOA '', N'Nha'
 Exec ThemKHOA 'K018', N'Mắt'
 Exec ThemKHOA 'K019', N''
+
+
+---------*********BACSI*********---------
+--Tạo thủ tục thêm dữ liệu bảng BACSI
+Create Proc ThemBacSi (
+	@MaBS varchar(20),
+	@TenBS nvarchar(50),
+	@NgSinh datetime,
+	@GioiTinh int,
+	@DiaChi nvarchar(max),
+	@SoDT varchar(30),
+	@MaKhoa varchar(20))
+As
+Begin
+	--Kiem tra ma ko duoc rong
+	if (@MaBS is null or @MaBS='')
+	Begin
+		print N'Mã bác sĩ không được rỗng'
+		return
+	End
+
+	--Kiem tra ma ko duoc trung
+	if exists (Select * from BACSI where MaBS=@MaBS) or exists ( select * from SQL_Home.QuanLyBenhNhan.dbo.BACSI where MaBS=@MaBS)
+	Begin
+		print N'Mã bác sĩ đã tồn tại'
+		return
+	End
+
+	--Kiem tra ten ko duoc rong
+	if (@TenBS is null or @TenBS='')
+	Begin
+		print N'Tên bác sĩ không được rỗng'
+		return
+	End  
+
+	--Kiem tra nhap gioi tinh
+	if (@GioiTinh != 0 and @GioiTinh !=1)
+	Begin
+		print N'Giới tính nữ: 0, giới tính nam: 1'
+		return
+	End
+
+	--kiem tra  MaKhoa co ton tai ko
+	if not exists (select * from KHOA where MaKhoa=@MaKhoa)
+	and not exists (select * from SQL_Home.QuanLyBenhNhan.dbo.KHOA where MaKhoa=@MaKhoa)
+	Begin
+		print N'Khoa không tồn tại'
+		return
+	End 
+
+	--Them bac si, phan manh theo gioi tinh
+	if (@GioiTinh=0)
+	Begin
+		insert into BACSI values(@MaBS, @TenBS, @NgSinh, @GioiTinh, @DiaChi, @SoDT, @MaKhoa)
+		print N'Thêm thành công bác sĩ ' + @TenBS
+	End
+
+	else
+	Begin
+		insert into SQL_Home.QuanLyBenhNhan.dbo.BACSI 
+		values(@MaBS, @TenBS, @NgSinh, @GioiTinh, @DiaChi, @SoDT, @MaKhoa)
+		print N'Thêm thành công bác sĩ ' + @TenBS
+	End
+End
+GO
+
+---Thêm dữ liệu vào bảng
+Exec ThemBacSi 'BS001', N'Vũ Duy Đông', '3/1/1982', 1, N'78/23/3 đường Cống Lở, Phường 15, Quận Tân Bình, TP Hồ Chí Minh', '01228867678', 'K002'
+Exec ThemBacSi 'BS002', N'Dương Cẩm Giang', '3/1/1981', 0, N'153/54 Trần Hưng Đạo, Phường Cầu Ông Lãnh, Quận 1, TP Hồ Chí Minh', '01229478717', 'K003'
+Exec ThemBacSi 'BS003', N'Võ Thị Quỳnh Giao', '3/1/1980', 0, N'152 Đường số 1, Phường Tân Phú, Quận 7, TP Hồ Chí Minh', '01229677954', 'K004'
+Exec ThemBacSi 'BS004', N'Lương Thị Thu Hà', '3/1/1979', 0, N'168 Đường số 1, Phường 16, Quận Gò Vấp, TP Hồ Chí Minh', '01229799523', 'K006'
+Exec ThemBacSi 'BS005', N'Trần Phi Hổ', '12/1/1961', 1, N'81/11 Nguyễn Bỉnh Khiêm, Phường 1, Quận Gò Vấp, TP Hồ Chí Minh', '01229798783', 'K007'
+Exec ThemBacSi 'BS006', N'Nguyễn Văn Huấn', '3/1/1972', 1, N'261/15/80/23 Tổ 5 Đình Phong Phú, Phường Tăng Nhơn Phú B, Quận 9, TP Hồ Chí Minh', '01233688869', 'K008'
+Exec ThemBacSi 'BS007', N'Trần Phạm Thanh Huy', '3/7/1962', 1, N'368/15/1 Đường Hà Huy Giáp, phường Thạnh Lộc, Quận 12, TP Hồ Chí Minh', '01234305060', 'K009'
+Exec ThemBacSi 'BS008', N'Nguyễn Thị Hàn Huyên', '3/5/1972', 0, N'124A, Đường Nguyễn Lâm, Phường 22, Quận Bình Thạnh, TP Hồ Chí Minh', '01234551240', 'K010'
+Exec ThemBacSi 'BS009', N'Hồ Đức Khoa', '3/6/1962', 1, N'945/29 Quốc Lộ 1A, khu phố 1, Phường An Lạc, Quận Bình Tân, TP Hồ Chí Minh', '01234558191', 'K011'
+Exec ThemBacSi 'BS010', N'Huỳnh Thị Mỹ Kim', '3/7/1990', 0, N'221/13 Trần Quang Khải, Phường Tân Định, Quận 1, TP Hồ Chí Minh', '0123472349', 'K012'
+
+--kiem tra cac truong hop
+Exec ThemBacSi '', N'Huỳnh Thị Kim', '3/7/1990', 0, N'221/13 Trần Quang Khải, Phường Tân Định, Quận 1, TP Hồ Chí Minh', '0123472349', 'K012'
+Exec ThemBacSi 'BS005', N'Hồ Đức Khoa', '3/6/1962', 1, N'945/29 Quốc Lộ 1A, khu phố 1, Phường An Lạc, Quận Bình Tân, TP Hồ Chí Minh', '01234558191', 'K011'
+Exec ThemBacSi 'BS0011', N'', '3/1/1979', 0, N'168 Đường số 1, Phường 11, Quận 9, TP Hồ Chí Minh', '01229788523', 'K004'
+Exec ThemBacSi 'BS0012', N'Trần Thanh Huy', '3/7/1982', 2, N'368/15/1 Đường Hà Huy Giáp, phường Thạnh Lộc, Quận 12, TP Hồ Chí Minh', '01234305070', 'K009'
+Exec ThemBacSi 'BS0012', N'Trần Thanh Minh', '3/7/1980', 1, N'368/15/1 Đường Hà Huy Giáp, phường Thạnh Lộc, Quận 12, TP Hồ Chí Minh', '01234305070', 'K018'
+
+-- Tạo khung nhìn (trong suốt) cho bảng BACSI
+Create view View_BacSi as
+select * from BACSI 
+union
+select * from SQL_Home.QuanLyBenhNhan.dbo.BACSI
+GO
+
+-- Thực hiện truy vấn trên khung nhìn trong suốt phân mảnh
+  --Cho biết thông tin các bác sĩ có họ Nguyễn và họ Trần
+select * 
+from View_BacSi
+where TenBS like N'Nguyễn%'
+	or TenBS like N'Trần%'
+GO
