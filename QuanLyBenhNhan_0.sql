@@ -117,6 +117,8 @@ Create table THUOC(
 		TenThuoc nvarchar(50) not null)
 
 alter table THUOC alter column TenThuoc nvarchar(max) not null
+alter table THUOC add MoTa nvarchar(max)
+alter table THUOC add XuatXu nvarchar(max)
 ---------------
 
 Create table CHITIETDONTHUOC(
@@ -290,27 +292,27 @@ values('DON000001', '2016-03-12', 'HS0000001'),
 ('DON000010', '2016-03-21', 'HS0000010')
 
 
-insert into THUOC(MaThuoc, TenThuoc)
-values('T0000001', 'EMTRIVA ORAL CAPSULE'),
-('T0000002', 'EPIVIR HBV ORAL SOLUTION'),
-('T0000003', 'FUZEON SUBCUTANEOUS RECON SOLN'),
-('T0000004', 'GENVOYA'),
-('T0000005', 'INTELENCE ORAL TABLET 100 MG'),
-('T0000006', 'KALETRA ORAL TABLET 100-25 MG'),
-('T0000007', 'PREZISTA ORAL TABLET 150 MG'),
-('T0000008', 'REYATAZ ORAL CAPSULE 150 MG'),
-('T0000009', 'SUSTIVA ORAL CAPSULE 200 MG '),
-('T0000010', 'VIDEX 2 GRAM PEDIATRIC'),
-('T0000011', 'VIRACEPT ORAL TABLET 250 MG'),
-('T0000012', 'CEFTRIAXONE INJECTION RECON SOLN 100 $0-7.40 (Tier 2) GRAM'),
-('T0000013', 'ERYTHROCIN INTRAVENOUS RECON SOLN $0-7.40 (Tier 2) 500 MG'),
-('T0000014', 'ALINIA ORAL SUSPENSION FOR $0-7.40 (Tier 2) MO; QLL (180 per 3 days) RECONSTITUTION'),
-('T0000015', 'AZACTAM IN DEXTROSE (ISO-OSM)'),
-('T0000016', 'CAPASTAT'),
-('T0000017', 'DAPSONE'),
-('T0000018', 'NEBUPENT'),
-('T0000019', 'PENTAM'),
-('T0000020', 'PRIMAQUINE')
+insert into THUOC(MaThuoc, TenThuoc, MoTa, XuatXu)
+values('T0000001', 'EMTRIVA ORAL CAPSULE', N'Trị đau nửa đầu', N'Ấn Độ'),
+('T0000002', 'EPIVIR HBV ORAL SOLUTION', N'Trị đau dạ dày', N'Pháp'),
+('T0000003', 'FUZEON SUBCUTANEOUS RECON SOLN', N'Trị đau nhức khớp', N'Pháp'),
+('T0000004', 'GENVOYA', N'Trị đau nhức cơ', N'Hàn Quốc'),
+('T0000005', 'INTELENCE ORAL TABLET 100 MG', N'Hỗ trợ men gan', N'Pháp'),
+('T0000006', 'KALETRA ORAL TABLET 100-25 MG', N'Hỗ trợ tuần hoàn máu', N'Ấn Độ'),
+('T0000007', 'PREZISTA ORAL TABLET 150 MG', N'Hỗ trợ hệ thần kinh', N'Pháp'),
+('T0000008', 'REYATAZ ORAL CAPSULE 150 MG', N'Hỗ trợ thoái hóa xương khớp', N'Pháp'),
+('T0000009', 'SUSTIVA ORAL CAPSULE 200 MG ', N'Hỗ trợ hệ miễn dịch', N'Ấn Độ'),
+('T0000010', 'VIDEX 2 GRAM PEDIATRIC', N'Hỗ trợ tim mạch', N'Pháp'),
+('T0000011', 'VIRACEPT ORAL TABLET 250 MG', N'Tăng cường dịch mật', N'Ấn Độ'),
+('T0000012', 'CEFTRIAXONE INJECTION RECON SOLN 100 $0-7.40 (Tier 2) GRAM', N'Tăng cường máu lên não', N'Pháp'),
+('T0000013', 'ERYTHROCIN INTRAVENOUS RECON SOLN $0-7.40 (Tier 2) 500 MG', N'Hỗ trợ hệ thần kinh ngoại biên', N'Pháp'),
+('T0000014', 'ALINIA ORAL SUSPENSION FOR $0-7.40 (Tier 2) MO; QLL (180 per 3 days) RECONSTITUTION', N'Diệt virus EV', N'Pháp'),
+('T0000015', 'AZACTAM IN DEXTROSE (ISO-OSM)', N'Hỗ trợ điều trị trầm cảm', N'Hàn Quốc'),
+('T0000016', 'CAPASTAT', N'Trị sỏi thận', N'Pháp'),
+('T0000017', 'DAPSONE', N'Diệt giun', N'Ấn Độ'),
+('T0000018', 'NEBUPENT', N'Hỗ trợ ổn định huyết áp', N'Pháp'),
+('T0000019', 'PENTAM', N'Chống đông máu', N'Pháp'),
+('T0000020', 'PRIMAQUINE', N'Tăng cường miễn dịch tuyến tụy', N'Ấn Độ')
 
 
 insert into CHITIETDONTHUOC(MaDon, MaThuoc, SoLuong, CachDung)
