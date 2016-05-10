@@ -354,11 +354,11 @@ Begin
 			where MaBN=@MaBN
 			print N'Sửa thành công bệnh nhân ' + @TenBN
 		End
-		
 	End
 
 	--Sửa bệnh nhân máy ảo
-	if exists (select MaBN from SQL_Home.QuanLyBenhNhan.dbo.BENHNHAN where MaBN=@MaBN)
+	--if exists (select MaBN from SQL_Home.QuanLyBenhNhan.dbo.BENHNHAN where MaBN=@MaBN)
+	else
 	Begin
 		if(@GioiTinh=0)
 		Begin
@@ -418,7 +418,7 @@ Begin
 		End
 	End
 End
-go
+GO
 
 ---Sửa dữ liệu bệnh nhân
 Exec SuaBENHNHAN 'BN000001', N'Phạm Minh Thành', '9/1/1992', 1, N'19 Nguyễn Trọng Trí, Phường An Lạc, Quận Bình Tân, TP Hồ Chí Minh', '01204845707'
@@ -437,6 +437,75 @@ Exec SuaBENHNHAN 'BN000020', N'Phạm Thị Kim Cương', '2/4/1992', 0, N'52 Ng
 Exec SuaBENHNHAN 'BN000005', N'', '9/1/1992', 0, N'111/1211 Lê Đức Thọ, Phường 12, Quận Gò Vấp, TP Hồ Chí Minh', '01212452011'
 Exec SuaBENHNHAN 'BN000008', N'Chung Yến Loan', '1/1/1993', 3, N'28/22A đường Đỗ Quang Đẩu, Phường Phạm Ngũ Lão, Quận 1, TP Hồ Chí Minh', '01212777768'
 Exec SuaBENHNHAN 'BN000010', N'Phan Hồng Phúc', '3/1/1990', 1, N'141 Nguyễn Đức Cảnh, Khu phố Mỹ Phúc, Phường Tân Phong, Quận 7, TP Hồ Chí Minh', '01213141655'
+--sửa tên và giới tính bệnh nhân mã BN000004
+Exec SuaBENHNHAN 'BN000004', N'Phạm Bảo An', '2/4/1992', 1, N'52 Nguyễn Du, Phường Bến Nghé, Quận 1, TP Hồ Chí Minh', '01212128184'
+
+------------------------
+-----Tạo thủ tục ===XÓA=== dữ liệu bảng BENHNHAN
+Create Proc XoaBENHNHAN (@MaBN varchar(20))
+As
+Begin
+	--Kiểm tra MaBN nhập vào có tồn tại ko
+	if not exists (select * from BENHNHAN where MaBN=@MaBN)
+	and not exists (select * from SQL_Home.QuanLyBenhNhan.dbo.BENHNHAN where MaBN=@MaBN)
+	Begin
+		print N'Mã bệnh nhân không tồn tại'
+		return
+	End 
+
+	--Kiểm tra MaBN nhập vào có tồn tại BHYT ko
+	if exists (select * from BHYT where MaBN=@MaBN)
+	or exists (select * from SQL_Home.QuanLyBenhNhan.dbo.BHYT where MaBN=@MaBN)
+	Begin
+		print N'Đang tồn tại ràng buộc tại bảng BHYT'
+		return
+	End 
+
+	--Kiểm tra MaBN nhập vào có tồn tại bảng sử dụng dịch vụ ko
+	if exists (select * from SUDUNGDICHVU where MaBN=@MaBN)
+	or exists (select * from SQL_Home.QuanLyBenhNhan.dbo.SUDUNGDICHVU where MaBN=@MaBN)
+	Begin
+		print N'Đang tồn tại ràng buộc tại bảng Sử dụng dịch vụ'
+		return
+	End 
+
+	--Kiểm tra MaBN nhập vào có tồn tại bảng phiếu xét nghiệm ko
+	if exists (select * from PHIEUXETNGHIEM where MaBN=@MaBN)
+	or exists (select * from SQL_Home.QuanLyBenhNhan.dbo.PHIEUXETNGHIEM where MaBN=@MaBN)
+	Begin
+		print N'Đang tồn tại ràng buộc tại bảng Phiếu xét nghiệm'
+		return
+	End
+
+	--Kiểm tra MaBN nhập vào có tồn tại bảng hồ sơ bệnh án ko
+	if exists (select * from HOSOBENHAN where MaBN=@MaBN)
+	or exists (select * from SQL_Home.QuanLyBenhNhan.dbo.HOSOBENHAN where MaBN=@MaBN)
+	Begin
+		print N'Đang tồn tại ràng buộc tại bảng Hồ sơ bệnh án'
+		return
+	End
+
+	declare @TenBN nvarchar(50)
+	select @TenBN=TenBN from BENHNHAN where MaBN=@MaBN
+	if exists (select * from BENHNHAN where MaBN=@MaBN)
+	Begin
+		delete from BENHNHAN where MaBN=@MaBN
+		print N'Xóa thành công bệnh nhân có mã ' + @TenBN
+	End
+
+	else
+	Begin
+		delete from SQL_Home.QuanLyBenhNhan.dbo.BENHNHAN where MaBN=@MaBN
+		print N'Xóa thành công bệnh nhân có mã ' + @TenBN
+	End
+End
+GO
+
+--Kiểm tra các trường hợp xóa BN
+Exec XoaBENHNHAN 'BN000015'
+Exec XoaBENHNHAN 'BN000001'
+Exec XoaBENHNHAN 'BN000012'
+
 
 
 
